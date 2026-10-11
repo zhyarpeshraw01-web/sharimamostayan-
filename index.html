@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#183f34"><meta name="description" content="A shared fieldwork notebook for the Smart Urban Growth study of Shari Mamostayan.">
+  <title>Urban Fieldnotes · Shari Mamostayan</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/styles.css">
+  <script src="config.js" defer></script><script src="assets/questions.js" defer></script><script src="assets/core.js" defer></script><script src="assets/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<aside class="sidebar">
+  <a class="brand" href="#overview" aria-label="Urban Fieldnotes overview"><svg viewBox="0 0 36 36" aria-hidden="true"><path d="M3 5h12v12H3zm18 0h12v26H21zM3 23h12v8H3z" fill="currentColor"/></svg><span>URBAN<br><b>FIELDNOTES</b></span></a>
+  <div class="sidebar-kicker">A COLLECTIVE SITE STUDY</div>
+  <nav aria-label="Main navigation">
+    <button class="nav-item active" data-nav="overview"><span aria-hidden="true">◫</span>Overview</button>
+    <button class="nav-item" data-nav="workbook"><span aria-hidden="true">▤</span>Questionnaire</button>
+    <button class="nav-item" data-nav="team"><span aria-hidden="true">◎</span>Our team</button>
+    <button class="nav-item" data-nav="compare"><span aria-hidden="true">▥</span>Compare answers</button>
+    <button class="nav-item" data-nav="guide"><span aria-hidden="true">?</span>Field guide</button>
+  </nav>
+  <div class="section-nav"><div class="sidebar-kicker">THE THREE CHAPTERS</div><button data-section="site"><i>01</i>Site & neighborhood</button><button data-section="mixed"><i>02</i>Mixed land use</button><button data-section="compact"><i>03</i>Compact design</button></div>
+  <div class="sidebar-bottom"><div class="site-tag">RESEARCH SITE</div><strong>Shari Mamostayan</strong><p>8 perspectives.<br>One shared understanding.</p><a href="source/questionnaire.pdf" target="_blank" rel="noopener">Original questionnaire ↗</a></div>
+</aside>
+<div class="app-shell">
+ <header class="topbar"><div class="breadcrumb">WORKSPACE <span>/</span> <b id="page-name">Overview</b></div><div class="top-actions"><span id="connection" class="connection" role="status">Local workspace</span><button class="button small" id="export-open">Export</button><button id="identity-open" class="identity" aria-label="Choose your profile"><span class="avatar">Z</span><span id="identity-name">Zhyar</span><span aria-hidden="true">⌄</span></button></div></header>
+ <div id="mode-banner" class="mode-banner"></div>
+ <main id="main" tabindex="-1"></main>
+ <footer class="app-footer"><span>URBAN FIELDNOTES <span class="muted">/</span> SMART GROWTH STUDY</span><span>35 questions · 8 individual perspectives</span></footer>
+</div>
+<dialog id="profile-dialog"><div class="dialog-head"><div><div class="eyebrow">YOUR WORKSPACE IDENTITY</div><h2 id="profile-title">Choose your name.</h2></div><button class="icon-button" data-close="profile-dialog" aria-label="Close">×</button></div><div id="profile-content"></div></dialog>
+<dialog id="export-dialog"><div class="dialog-head"><div><div class="eyebrow">TAKE YOUR RESEARCH WITH YOU</div><h2>Export the study.</h2></div><button class="icon-button" data-close="export-dialog" aria-label="Close">×</button></div><p>Exports contain saved answers for all eight members. Unsaved drafts are included only in the JSON backup.</p><div class="export-options"><button data-export="csv"><b>Spreadsheet · CSV</b><span>All 280 answer slots, ratings and evidence.</span></button><button data-export="json"><b>Backup · JSON</b><span>Saved records and your local drafts.</span></button><button data-export="print"><b>Print / save as PDF</b><span>A readable team report with all saved responses.</span></button></div><p class="muted small-text">In local mode, exports contain only this browser’s workspace.</p></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<div id="print-report"></div>
+<noscript><p class="notice">Please enable JavaScript to use this questionnaire.</p></noscript>
+</body></html>

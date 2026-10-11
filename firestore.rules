@@ -1,0 +1,62 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function memberPath() { return /databases/$(database)/documents/members/$(request.auth.uid); }
+    function knownMember(id) {
+      return id in ['zhyar', 'akam', 'bria', 'yasr', 'nma', 'layad', 'snur', 'soma'];
+    }
+    function isMember() {
+      return signedIn() && exists(memberPath()) && knownMember(get(memberPath()).data.memberId);
+    }
+    function mine() { return get(memberPath()).data.memberId; }
+    function validQuestion(id) {
+      return id in [
+        'site-01','site-02','site-03','site-04','site-05','site-06','site-07','site-08',
+        'site-09','site-10','site-11','site-12','site-13','site-14','site-15',
+        'mixed-01','mixed-02','mixed-03','mixed-04','mixed-05','mixed-06','mixed-07','mixed-08','mixed-09','mixed-10',
+        'compact-01','compact-02','compact-03','compact-04','compact-05','compact-06','compact-07','compact-08','compact-09','compact-10'
+      ];
+    }
+    function validAnswer(a, answerId) {
+      return a.keys().hasAll(['memberId','questionId','responseStatus','choice','selections','values','notes','evidence','rating','revision','updatedAt'])
+        && a.keys().hasOnly(['memberId','questionId','responseStatus','choice','selections','values','notes','evidence','rating','revision','updatedAt'])
+        && a.memberId == mine()
+        && validQuestion(a.questionId)
+        && answerId == a.memberId + '__' + a.questionId
+        && a.responseStatus in ['observed','unknown','na']
+        && a.choice is string && a.choice.size() <= 150
+        && a.selections is list && a.selections.size() <= 10
+        && a.selections.toSet().hasOnly(['Vertical','Horizontal','Live-work','Transit-oriented','Urban renewal & revitalization','Destination','Retail-residential','Waterfront','Residential','Commercial','Recreational','Retail','Educational','Industrial','Other','Foot','Bike','Car','Bus','On-street parking','Off-street parking','Neither'])
+        && a.values is map && a.values.keys().hasAll(['v1','v2','v3']) && a.values.keys().hasOnly(['v1','v2','v3'])
+        && a.values.v1 is string && a.values.v1.size() <= 400
+        && a.values.v2 is string && a.values.v2.size() <= 400
+        && a.values.v3 is string && a.values.v3.size() <= 400
+        && a.notes is string && a.notes.size() <= 6000
+        && a.evidence is string && a.evidence.size() <= 2000
+        && a.rating is int && a.rating >= -1 && a.rating <= 5
+        && (a.responseStatus != 'na' || a.rating == -1)
+        && a.revision is int && a.revision >= 1
+        && a.updatedAt == request.time;
+    }
+    // Member assignments are made by the project owner in the Firebase console.
+    // No visitor, including a signed-in team member, can change assignments.
+    match /members/{uid} {
+      allow get: if signedIn() && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+    match /projects/{projectId}/answers/{answerId} {
+      allow read: if projectId == 'shari-mamostayan' && isMember();
+      allow create: if projectId == 'shari-mamostayan' && isMember()
+        && validAnswer(request.resource.data, answerId) && request.resource.data.revision == 1;
+      allow update: if projectId == 'shari-mamostayan' && isMember()
+        && resource.data.memberId == mine()
+        && request.resource.data.memberId == resource.data.memberId
+        && request.resource.data.questionId == resource.data.questionId
+        && validAnswer(request.resource.data, answerId)
+        && request.resource.data.revision == resource.data.revision + 1;
+      allow delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
